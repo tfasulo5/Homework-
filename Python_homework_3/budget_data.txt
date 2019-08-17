@@ -1,0 +1,8 @@
+budget_data
+Financial Analysis
+----------------------
+Total Months: 86
+Total: $38382578
+Average: $-2315.12
+greatest increase in profits:Feb-2012 $1926159
+greatest decrease in profits:Sep-2013 ($-2196167)
