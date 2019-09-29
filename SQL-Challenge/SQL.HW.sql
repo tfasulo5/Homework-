@@ -14,7 +14,7 @@ SELECT Hire_Date,
 	   Last_Name, 
 	   First_Name
 FROM Employees
-WHERE Hire_Date = DATE'1/1/1986';
+WHERE Hire_Date BETWEEN DATE'1/1/1986' AND DATE'12/31/1986';
 
 
 -- 3.List the manager of each department with the following information: department number, department name, the manager's employee number, last name, first name and start and end employment dates.
