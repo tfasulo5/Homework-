@@ -33,8 +33,8 @@ CREATE TABLE Employees(
 CREATE TABLE Salaries(
   Emp_No INTEGER NOT NULL,
   Salary INTEGER,
-  From_Date VARCHAR(250),
-  To_Date VARCHAR(250),
+  From_Date DATE,
+  To_Date DATE,
   FOREIGN KEY (Emp_No) REFERENCES Employees
 );
 
