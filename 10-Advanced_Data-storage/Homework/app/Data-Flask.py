@@ -27,15 +27,6 @@ Station = Base.classes.Station
 # Create our session (link) from Python to the DB
 session = session.engine
 
-# Design a query to retrieve the last 12 months of precipitation data and plot the results
-last = session.query(Measurement.date).order_by(Measurement.date.desc()).first().date
-last
-last_12_months = dt.date(2017, 8, 23) - dt.timedelta(days=365)
-last_12_months
-prec_data = session.query(Measurement.date, func.avg(Measurement.prcp)).\
-                    filter(Measurement.date > last_12_months).\
-                    group_by(Measurement.date).all()
-prec_data
 
 #Flask set up
 app = Flask(__name__)
@@ -46,18 +37,24 @@ def welcome():
     
   return f"Available Routes:<br/>"
    f"/api/v1.0/precipitation<br/>" 
-   f"/api/v1.0/Measurement<br/>"
    f"/api/v1.0/Station<br/>"
+   f"/api/v1.0/tobs<br/>"
+   f"/api/v1.0/<start>" 
+   f"/api/v1.0/<start>/<end>"
 
 
 
 @app.route("/api/v1.0/precipitation/<precipitation>")
 def precipitation(precipitation):
     # Create our session (link) from Python to the DB
-    prec_data = session.query(Measurement.date, func.avg(Measurement.prcp)).\
-                    filter(Measurement.date > last_12_months).\
-                    group_by(Measurement.date).all()
-    return jsonify(prec_data)
+    last_12_months = dt.date(2017, 8, 23) - dt.timedelta(days=365)
+
+    prec_data = session.query(Measurement.date, Measurement.prcp).\
+                    filter(Measurement.date >= last_12_months).all()
+    date_pr = {}
+    for result in prec_data:
+        date_pr[result[0]] = result[1]
+    return jsonify(date_pr)
     
 @app.route("/api/v1.0/Station/<Station>")
 def Station(Station)
