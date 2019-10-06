@@ -63,6 +63,48 @@ active_stations = session.query(Measurement.station, func.count(Measurement.stat
                 order_by(func.count(Measurement.station).desc()).all()
     return jsonify(active_stations)
 
+@app.route("/api/v1.0/tobs/<tobs>")
+def tobs(tobs)
+station_numbers = active_stations[0][0]
+    session.query(func.min(Measurement.tobs), func.avg(Measurement.tobs), func.max(Measurement.tobs)).\
+                filter(Measurement.station ==station_numbers).all()
+    return jsonify(station_numbers)
+
+highest_temp = session.query(Measurement.station, Measurement.tobs).\
+                filter(Measurement.station == station_numbers).\
+                filter(Measurement.date >= last_12_months).all()
+high_df = pd.DataFrame(highest_temp)
+high_df.set_index('station',)
+high_df.head()
+    return jsonify(high_df)
+
+@app.route("/api/v1.0/start/<start>")
+def start(start)
+start_date (string): A date string in the format %Y-%m-%d
+return jsonify(start)
+
+@app.route("/api/v1.0/<start>/<end>/<start>/<end>")
+def <start>/<end>(<start>/<end>)
+def calc_temps(start_date, end_date):
+    """TMIN, TAVG, and TMAX for a list of dates.
+    
+    Args:
+        start_date (string): A date string in the format %Y-%m-%d
+        end_date (string): A date string in the format %Y-%m-%d
+        
+    Returns:
+        TMIN, TAVE, and TMAX
+    """
+    
+return session.query(func.min(Measurement.tobs), func.avg(Measurement.tobs), func.max(Measurement.tobs)).\
+        filter(Measurement.date >= start_date).filter(Measurement.date <= end_date).all()
+
+trip_temps = calc_temps('2017-02-28', '2017-03-05')
+trip_temps
+
+if __name__ == "__main__":
+    app.run(debug=True)
+
 
 
 
